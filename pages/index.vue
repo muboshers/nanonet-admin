@@ -1,9 +1,9 @@
 <template>
-  <h1 class="text-red-500">Home Page</h1>
+  <h1 class="text-red-500">{{ $t("sidebar.blog") }}</h1>
 </template>
 
 <script>
 export default {
-  name: "MainPage",
+  middleware: "auth",
 };
 </script>

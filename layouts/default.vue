@@ -9,14 +9,41 @@
       app
     >
       <v-list>
-        <v-list-item :to="localePath('/blog')" router exact>
-          <v-list-item-content>{{ $t("sidebar.blog") }} </v-list-item-content>
+        <v-list-item :to="localePath('/')" router exact>
+          <v-list-action>
+            <v-img
+              lazy-src="https://nanonet.vercel.app/img/logo/consulty-logo.png"
+              max-height="60"
+              max-width="130"
+              contain
+              src="https://nanonet.vercel.app/img/logo/consulty-logo.png"
+            />
+          </v-list-action>
         </v-list-item>
         <v-list-item :to="localePath('/blog')" router exact>
-          <v-list-item-content>{{ $t("sidebar.about") }} </v-list-item-content>
+          <v-list-action>
+            <v-icon>mdi-pencil</v-icon>
+          </v-list-action>
+          <v-list-item-content class="mx-2"
+            >{{ $t("sidebar.blog") }}
+          </v-list-item-content>
+          <v-list-action>
+            <v-icon> </v-icon>
+          </v-list-action>
         </v-list-item>
-        <v-list-item :to="localePath('/blog')" router exact>
-          <v-list-item-content
+        <v-list-item :to="localePath('/about')" router exact>
+          <v-list-action>
+            <v-icon>mdi-domain</v-icon>
+          </v-list-action>
+          <v-list-item-content class="mx-2"
+            >{{ $t("sidebar.about") }}
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="localePath('/service')" router exact>
+          <v-list-action>
+            <v-icon>mdi-server</v-icon>
+          </v-list-action>
+          <v-list-item-content class="mx-2"
             >{{ $t("sidebar.service") }}
           </v-list-item-content>
         </v-list-item>
@@ -33,9 +60,7 @@
       <v-btn icon @click.stop="clipped = !clipped">
         <v-icon>mdi-application</v-icon>
       </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
+
       <!-- <v-toolbar-title>{{ title }}</v-toolbar-title> -->
       <v-spacer />
       <v-btn icon @click.stop="rightDrawer = !rightDrawer">
@@ -57,9 +82,27 @@
       <v-list>
         <v-list-item @click.native="right = true">
           <v-list-item-action>
-            <v-btn class="mx-2" fab dark small color="primary"> </v-btn>
+            <v-btn
+              class="mx-2"
+              @click="colorSwitch"
+              fab
+              dark
+              small
+              :color="this.$vuetify.theme.dark ? 'white' : 'dark'"
+            >
+            </v-btn>
           </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
+          <v-list-item-title> {{ $t("sidebar.settings") }} </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-select
+            solo
+            v-model="language"
+            :items="languages"
+            :hint="$t('languages')"
+            :item-value="language"
+            :label="$t('languages')"
+          ></v-select>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -82,11 +125,24 @@ export default {
       clipped: false,
       drawer: false,
       fixed: false,
-
       miniVariant: false,
       right: true,
       rightDrawer: false,
+      language: "",
+      languages: ["en", "ru", "uz"],
     };
+  },
+
+  methods: {
+    colorSwitch() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
+  },
+
+  watch: {
+    language() {
+      this.$i18n.setLocale(this.language);
+    },
   },
 };
 </script>

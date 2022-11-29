@@ -64,7 +64,7 @@ export default {
     locales: ["en", "ru", "uz"],
     defaultLocale: "en",
     vueI18n: {
-      fallbackLocale: false,
+      fallbackLocale: "en",
       messages: {
         en: englishLanguage,
         ru: russianLanguage,

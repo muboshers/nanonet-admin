@@ -4,8 +4,4 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "ServicePage",
-};
-</script>
+<script setup></script>
