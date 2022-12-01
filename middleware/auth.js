@@ -1,4 +1,3 @@
 export default function (context) {
-  console.log(context.store);
-  return context.redirect("/login");
+  if (!context.store.admin) return context.redirect("/login");
 }
