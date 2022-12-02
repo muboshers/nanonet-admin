@@ -20,6 +20,8 @@ const uzbekLanguage = {
       title: "Sarlavha",
       description: "Ozroq ma'lumot",
       action: "Ilovalar",
+      createdAt: "Yaratilgan sana",
+      author: "Muallif",
     },
   },
 
@@ -35,6 +37,7 @@ const uzbekLanguage = {
     },
     dataTable: {
       title: "Sarlavha",
+      author: "Muallif",
       description: "Ozroq ma'lumot",
       action: "Ilovalar",
     },

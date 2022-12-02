@@ -32,9 +32,11 @@ const russianLanguage = {
       delete: "Удалить",
     },
     dataTable: {
+      author: "Blog Автор",
       title: "Название",
       description: "Описание",
       action: "Действие",
+      createdAt: "Время создания",
     },
   },
 

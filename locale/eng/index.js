@@ -34,9 +34,12 @@ const englishLanguage = {
       delete: "Delete",
     },
     dataTable: {
+      author: "Blog Author",
       title: "Title",
       description: "Description",
       action: "Action",
+      createdAt:"Created Time",
+      
     },
   },
 

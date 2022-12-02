@@ -11,7 +11,7 @@
           <v-col md="12" align="end" justify="flex-end">
             <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
               <v-icon> mdi-plus </v-icon>
-              {{ $t("about.title") }}
+              {{ $t("blog.title") }}
             </v-btn>
           </v-col>
           <v-col md="12" class="mt-5">
@@ -32,15 +32,29 @@
                 </span>
               </template>
 
+              <template #item.author="{ value, item }">
+                <span> {{ value }} 1 </span>
+              </template>
+
+              <template #item.createdDate="{ value, item }">
+                <span>
+                  {{ new Date(value).toLocaleDateString("en-US") }}
+                </span>
+              </template>
               <template #item.action="{ item }">
-                <v-btn color="red" dark class="mx-2">
+                <v-btn
+                  @click="deleteBlog(item.id)"
+                  color="red"
+                  dark
+                  class="mx-2"
+                >
                   <v-icon>mdi-delete</v-icon>
-                  {{ $t("about.form.delete") }}
+                  {{ $t("blog.form.delete") }}
                 </v-btn>
 
-                <v-btn color="primary" class="mx-2">
+                <v-btn @click="editBlog(item)" color="primary" class="mx-2">
                   <v-icon>mdi-edit</v-icon>
-                  {{ $t("about.form.edit") }}
+                  {{ $t("blog.form.edit") }}
                 </v-btn>
               </template>
             </v-data-table>
@@ -57,18 +71,26 @@
       </template>
 
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          {{ $t("about.title") }}
+        <v-card-title v-if="action === 'create'" class="text-h5 grey lighten-2">
+          {{ $t("blog.title") }}
         </v-card-title>
-
+        <v-card-title
+          v-else-if="action === 'edit'"
+          class="text-h5 grey lighten-2"
+        >
+          {{ $t("blog.form.edit") }}
+        </v-card-title>
+        <v-card-title v-else class="text-h5 grey lighten-2">
+          {{ $t("blog.form.delete") }}
+        </v-card-title>
         <v-form v-model="valid">
-          <v-container>
+          <v-container v-if="action === 'create'">
             <v-row>
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model="EN.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' EN'"
+                  :label="$t('blog.form.title') + ' EN'"
                   required
                 />
               </v-col>
@@ -76,7 +98,7 @@
                 <v-text-field
                   v-model="RU.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' RUS'"
+                  :label="$t('blog.form.title') + ' RUS'"
                   required
                 />
               </v-col>
@@ -84,7 +106,7 @@
                 <v-text-field
                   v-model="UZ.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' UZ'"
+                  :label="$t('blog.form.title') + ' UZ'"
                   required
                 />
               </v-col>
@@ -95,7 +117,7 @@
                 <v-textarea
                   filled
                   v-model="EN.description"
-                  :label="$t('about.form.description') + ' EN'"
+                  :label="$t('blog.form.description') + ' EN'"
                   :rules="descriptionRules"
                   required
                 />
@@ -106,7 +128,7 @@
                   filled
                   v-model="RU.description"
                   :rules="descriptionRules"
-                  :label="$t('about.form.description') + ' RUS'"
+                  :label="$t('blog.form.description') + ' RUS'"
                   required
                 />
               </v-col>
@@ -114,22 +136,61 @@
               <v-col cols="12" md="4">
                 <v-textarea
                   filled
-                  v-model="UZ.description"
-                  :rules="descriptionRules"
-                  :label="$t('about.form.description') + ' UZB'"
+                  v-model="RU.title"
+                  :rules="titleRules"
+                  :label="$t('blog.form.description') + $t('lanaguege')"
                   required
                 />
               </v-col>
             </v-row>
           </v-container>
+          <!-- Edit form -->
+          <v-container v-else-if="action === 'edit'">
+            <v-row>
+              <v-col cols="12" md="8">
+                <v-text-field
+                  filled
+                  v-model="editData.title"
+                  :label="$t('blog.form.description') + $t('lanaguege')"
+                  :rules="descriptionRules"
+                  required
+                />
+                <v-textarea
+                  filled
+                  v-model="editData.description"
+                  :rules="descriptionRules"
+                  :label="$t('blog.form.description') + ' RUS'"
+                  required
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-container else> </v-container>
         </v-form>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="createAbout">
-            {{ $t("about.form.submit") }}
+          <v-btn
+            v-if="action === 'create'"
+            color="primary"
+            text
+            @click="createblog"
+          >
+            {{ $t("blog.form.submit") }}
+          </v-btn>
+          <v-btn
+            v-else-if="action === 'edit'"
+            color="primary"
+            text
+            @click="handleEditBlog"
+          >
+            {{ $t("blog.form.edit") }}
+          </v-btn>
+
+          <v-btn v-else color="primary" text @click="createblog">
+            {{ $t("blog.form.delete") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -140,11 +201,12 @@
 <script>
 export default {
   middleware: "auth",
-  name: "AboutPage",
+  name: "blogPage",
 
   data: () => ({
     valid: false,
     errorField: null,
+    action: "create",
     titleRules: [
       (v) => !!v || "Title is required",
       (v) => v.length <= 255 || "Title must be less than 255 characters",
@@ -156,16 +218,22 @@ export default {
     UZ: {
       title: "",
       description: "",
+      author: "",
+      createdDate: `"${Date.now()}"`,
     },
     EN: {
       title: "",
       description: "",
+      author: "",
+      createdDate: `"${Date.now()}"`,
     },
     RU: {
       title: "",
       description: "",
+      author: "",
+      createdDate: `"${Date.now()}"`,
     },
-
+    editData: null,
     headers: [],
     data: [],
     dialog: false,
@@ -175,13 +243,13 @@ export default {
   },
 
   methods: {
-    async createAbout() {
+    async createblog() {
       if (this.valid) {
         await this.createInformation()
           .then((result) => result.json())
-          .then((d) => console.log(d))
+          .then((d) => (this.data = [...this.data, d.data]))
           .catch((err) => {
-            this.errorField = err.data.message;
+            this.errorField = "Something wrong";
 
             setTimeout(() => {
               this.errorField = null;
@@ -198,7 +266,6 @@ export default {
       this.UZ.title = "";
       this.UZ.description = "";
     },
-
     async createInformation() {
       return await fetch(
         `https://consultingweb.duckdns.org/api/v1/blog/create?lang=${this.$t(
@@ -214,37 +281,19 @@ export default {
           },
           method: "POST",
           body: JSON.stringify({
-            EN: {
-              ...this.EN,
-              createdDate: new Date(),
-              author: `${
-                JSON.parse(localStorage.getItem("user")).data.username
-              }`,
-            },
-            RU: {
-              ...this.RU,
-              createdDate: new Date(),
-              author: `${
-                JSON.parse(localStorage.getItem("user")).data.username
-              }`,
-            },
-            UZ: {
-              ...this.UZ,
-              createdDate: new Date(),
-              author: `${
-                JSON.parse(localStorage.getItem("user")).data.username
-              }`,
-            },
+            EN: this.EN,
+            RU: this.RU,
+            UZ: this.UZ,
           }),
         }
       );
     },
 
-    async getAllAboutInformation() {
+    async getAllblogInformation() {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/blog/list/?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/blog/list?lang=${this.$t(
           "lanaguege"
-        )}?page=1?size=5`,
+        )}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -258,7 +307,7 @@ export default {
     },
 
     async getInfoToData() {
-      await this.getAllAboutInformation()
+      await this.getAllblogInformation()
         .then((res) => res.json())
         .then((d) => {
           this.data = d.data.content;
@@ -271,27 +320,90 @@ export default {
           }, 2000);
         });
     },
+    handleEditBlog() {
+      this.editData = [];
+      this.dialog = false;
+      this.action = "create";
+    },
+    editBlog(item) {
+      this.action = "edit";
+      this.dialog = true;
+      this.editData = {
+        title: item.title,
+        description: item.description,
+        author: item.author,
+        createdDate: item.createdDate,
+      };
+    },
+
+    async deleteBlogRequest(id) {
+      return await fetch(
+        `https://consultingweb.duckdns.org/api/v1/blog/delete/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            AUTHORIZATION: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).data.token
+            }`,
+          },
+          method: "DELETE",
+        }
+      );
+    },
+    async deleteBlog(id) {
+      this.deleteBlogRequest(id)
+        .then((res) => res.json())
+        .then((d) => {
+          this.data = this.data.filter((blog) => blog.id !== id);
+        })
+        .catch((err) => console.log(err));
+    },
   },
 
   mounted() {
     this.getInfoToData();
+    this.EN.author = JSON.parse(
+      localStorage.getItem("user")
+    ).data.data.username;
+    this.RU.author = JSON.parse(
+      localStorage.getItem("user")
+    ).data.data.username;
+    this.UZ.author = JSON.parse(
+      localStorage.getItem("user")
+    ).data.data.username;
   },
   beforeMount() {
     this.headers = [
       {
-        text: this.$root.$t("about.dataTable.title"),
+        text: this.$root.$t("blog.dataTable.title"),
         align: "start",
         sortable: false,
         value: "title",
       },
       {
-        text: this.$root.$t("about.dataTable.description"),
+        text: this.$root.$t("blog.dataTable.description"),
         align: "start",
         sortable: false,
         value: "description",
       },
       {
-        text: this.$root.$t("about.dataTable.action"),
+        text: this.$root.$t("blog.dataTable.author"),
+        align: "start",
+        sortable: false,
+        value: "author",
+      },
+      {
+        // text: this.$root.$t("blog.dataTable.createdAt"),
+        text: "dede",
+
+        align: "center",
+        sortable: false,
+        value: "createdDate",
+      },
+      {
+        // text: this.$root.$t("blog.dataTable.action"),
+        text: "dede",
+
         align: "center",
         sortable: false,
         value: "action",
