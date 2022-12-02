@@ -140,7 +140,7 @@
 <script>
 export default {
   middleware: "auth",
-  name: "BlogPage",
+  name: "AboutPage",
 
   data: () => ({
     valid: false,
@@ -150,7 +150,7 @@ export default {
       (v) => v.length <= 255 || "Title must be less than 255 characters",
     ],
     descriptionRules: [
-      (v) => !!v || "E-mail is required",
+      (v) => !!v || "Description is required",
       (v) => v.length <= 255 || "Description must be less than 255 characters",
     ],
     UZ: {
@@ -167,40 +167,8 @@ export default {
     },
 
     headers: [],
-    data: [
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-      {
-        title: "Frontend Developer",
-        description: "Also created web sites and web servises",
-      },
-    ],
+    data: [],
+    dialog: false,
   }),
   head: {
     title: "Nanonet Service",
@@ -208,21 +176,32 @@ export default {
 
   methods: {
     async createAbout() {
-      await this.createInformation()
-        .then((result) => result.json())
-        .then((d) => console.log(d))
-        .catch((err) => {
-          this.errorField = err.data.message;
+      if (this.valid) {
+        await this.createInformation()
+          .then((result) => result.json())
+          .then((d) => console.log(d))
+          .catch((err) => {
+            this.errorField = err.data.message;
 
-          setTimeout(() => {
-            this.errorField = null;
-          }, 2000);
-        });
+            setTimeout(() => {
+              this.errorField = null;
+            }, 2000);
+          });
+        this.dialog = false;
+      }
+      this.EN.title = "";
+      this.EN.description = "";
+
+      this.RU.title = "";
+      this.RU.description = "";
+
+      this.UZ.title = "";
+      this.UZ.description = "";
     },
 
     async createInformation() {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/about-us?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/blog/create?lang=${this.$t(
           "lanaguege"
         )}`,
         {
@@ -235,9 +214,27 @@ export default {
           },
           method: "POST",
           body: JSON.stringify({
-            EN: this.EN,
-            RU: this.RU,
-            UZ: this.UZ,
+            EN: {
+              ...this.EN,
+              createdDate: new Date(),
+              author: `${
+                JSON.parse(localStorage.getItem("user")).data.username
+              }`,
+            },
+            RU: {
+              ...this.RU,
+              createdDate: new Date(),
+              author: `${
+                JSON.parse(localStorage.getItem("user")).data.username
+              }`,
+            },
+            UZ: {
+              ...this.UZ,
+              createdDate: new Date(),
+              author: `${
+                JSON.parse(localStorage.getItem("user")).data.username
+              }`,
+            },
           }),
         }
       );
@@ -245,9 +242,9 @@ export default {
 
     async getAllAboutInformation() {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/about-us?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/blog/list/?lang=${this.$t(
           "lanaguege"
-        )}`,
+        )}?page=1?size=5`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -264,7 +261,7 @@ export default {
       await this.getAllAboutInformation()
         .then((res) => res.json())
         .then((d) => {
-          this.data = d.data;
+          this.data = d.data.content;
         })
         .catch((err) => {
           this.errorField = err.message;

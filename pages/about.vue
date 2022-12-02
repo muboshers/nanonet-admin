@@ -150,7 +150,7 @@ export default {
       (v) => v.length <= 255 || "Title must be less than 255 characters",
     ],
     descriptionRules: [
-      (v) => !!v || "E-mail is required",
+      (v) => !!v || "Description is required",
       (v) => v.length <= 255 || "Description must be less than 255 characters",
     ],
     UZ: {

@@ -23,6 +23,23 @@ const englishLanguage = {
     },
   },
 
+  blog: {
+    title: "Create Blog",
+
+    form: {
+      title: "Blog Title",
+      description: "Blog Description",
+      submit: "Create",
+      edit: "Edit",
+      delete: "Delete",
+    },
+    dataTable: {
+      title: "Title",
+      description: "Description",
+      action: "Action",
+    },
+  },
+
   lanaguege: "EN",
 };
 

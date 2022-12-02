@@ -13,7 +13,23 @@ const russianLanguage = {
       description: "О нас описание",
       create: "Создавать",
       edit: "Редактировать",
-      delete:"Удалить"
+      delete: "Удалить",
+    },
+    dataTable: {
+      title: "Название",
+      description: "Описание",
+      action: "Действие",
+    },
+  },
+
+  blog: {
+    title: "Создать Блог",
+    form: {
+      title: "Блог название",
+      description: "Блог описание",
+      create: "Создавать",
+      edit: "Редактировать",
+      delete: "Удалить",
     },
     dataTable: {
       title: "Название",

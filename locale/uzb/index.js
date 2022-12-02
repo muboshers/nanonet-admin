@@ -13,8 +13,25 @@ const uzbekLanguage = {
       title: "Sarlavha",
       description: "Qisqacha ma'lumot",
       create: "Yaratish",
-      edit:"Tahrirlash",
-      delete:"O'chirish"
+      edit: "Tahrirlash",
+      delete: "O'chirish",
+    },
+    dataTable: {
+      title: "Sarlavha",
+      description: "Ozroq ma'lumot",
+      action: "Ilovalar",
+    },
+  },
+
+  blog: {
+    title: "Blog Yaratish",
+
+    form: {
+      title: "Sarlavha",
+      description: "Qisqacha ma'lumot",
+      create: "Yaratish",
+      edit: "Tahrirlash",
+      delete: "O'chirish",
     },
     dataTable: {
       title: "Sarlavha",
