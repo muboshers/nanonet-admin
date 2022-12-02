@@ -96,7 +96,7 @@ export default {
     },
     async formRequest() {
       return await fetch(
-        "https://93e0-213-230-69-2.ngrok.io/api/v1/auth/login",
+        "https://consultingweb.duckdns.org/api/v1/auth/login",
         {
           headers: {
             "Content-Type": "application/json",
@@ -124,11 +124,15 @@ export default {
     if (user !== null || undefined) {
       if (user.tokenCreadintinal == todayDate) {
         this.login(user);
-        this.$router.push({ name: "HomePage" });
+        this.$router.push({ name: "index___en" });
       } else {
-        localStorage.clear(); 
+        localStorage.clear();
       }
     }
+  },
+
+  head: {
+    title: "Nanonet Login",
   },
 };
 </script>

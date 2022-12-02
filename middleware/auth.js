@@ -1,3 +1,6 @@
-export default function (context) {
-  if (!context.store.admin) return context.redirect("/login");
+export default async function ({ store, route, redirect }) {
+  const authenticated = await store.state.admin;
+  if (!authenticated) {
+    return redirect("/login");
+  }
 }

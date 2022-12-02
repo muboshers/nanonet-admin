@@ -4,4 +4,12 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  name: "ServicePage",
+  middleware: "auth",
+  head: {
+    title: "Nanonet title",
+  },
+};
+</script>

@@ -10,7 +10,7 @@
     >
       <v-list>
         <v-list-item :to="localePath('/')" router exact>
-          <v-list-action>
+          <v-list-item-action>
             <v-img
               lazy-src="https://nanonet.vercel.app/img/logo/consulty-logo.png"
               max-height="60"
@@ -18,31 +18,31 @@
               contain
               src="https://nanonet.vercel.app/img/logo/consulty-logo.png"
             />
-          </v-list-action>
+          </v-list-item-action>
         </v-list-item>
         <v-list-item :to="localePath('/blog')" router exact>
-          <v-list-action>
+          <v-list-item-action>
             <v-icon>mdi-pencil</v-icon>
-          </v-list-action>
+          </v-list-item-action>
           <v-list-item-content class="mx-2"
             >{{ $t("sidebar.blog") }}
           </v-list-item-content>
-          <v-list-action>
+          <v-list-item-action>
             <v-icon> </v-icon>
-          </v-list-action>
+          </v-list-item-action>
         </v-list-item>
         <v-list-item :to="localePath('/about')" router exact>
-          <v-list-action>
+          <v-list-item-action>
             <v-icon>mdi-domain</v-icon>
-          </v-list-action>
+          </v-list-item-action>
           <v-list-item-content class="mx-2"
             >{{ $t("sidebar.about") }}
           </v-list-item-content>
         </v-list-item>
         <v-list-item :to="localePath('/service')" router exact>
-          <v-list-action>
+          <v-list-item-action>
             <v-icon>mdi-server</v-icon>
-          </v-list-action>
+          </v-list-item-action>
           <v-list-item-content class="mx-2"
             >{{ $t("sidebar.service") }}
           </v-list-item-content>

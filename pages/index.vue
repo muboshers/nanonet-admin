@@ -6,5 +6,8 @@
 export default {
   middleware: "auth",
   name: "HomePage",
+  head: {
+    title: "Nanonet Home Page",
+  },
 };
 </script>

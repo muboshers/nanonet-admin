@@ -140,7 +140,7 @@
 <script>
 export default {
   middleware: "auth",
-  name: "AboutPage",
+  name: "BlogPage",
 
   data: () => ({
     valid: false,
@@ -167,8 +167,40 @@ export default {
     },
 
     headers: [],
-    data: [],
-    dialog: false,
+    data: [
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+      {
+        title: "Frontend Developer",
+        description: "Also created web sites and web servises",
+      },
+    ],
   }),
   head: {
     title: "Nanonet Service",
@@ -176,27 +208,16 @@ export default {
 
   methods: {
     async createAbout() {
-      if (this.valid) {
-        await this.createInformation()
-          .then((result) => result.json())
-          .then((d) => console.log(d))
-          .catch((err) => {
-            this.errorField = err.data.message;
+      await this.createInformation()
+        .then((result) => result.json())
+        .then((d) => console.log(d))
+        .catch((err) => {
+          this.errorField = err.data.message;
 
-            setTimeout(() => {
-              this.errorField = null;
-            }, 2000);
-          });
-        this.dialog = false;
-      }
-      this.EN.title = "";
-      this.EN.description = "";
-
-      this.RU.title = "";
-      this.RU.description = "";
-
-      this.UZ.title = "";
-      this.UZ.description = "";
+          setTimeout(() => {
+            this.errorField = null;
+          }, 2000);
+        });
     },
 
     async createInformation() {

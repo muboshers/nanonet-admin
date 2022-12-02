@@ -6,6 +6,23 @@ const russianLanguage = {
     settings: "Поменять тему",
   },
   languages: "Изменить язык",
+  about: {
+    title: "Создать информацию о нас",
+    form: {
+      title: "О нас название",
+      description: "О нас описание",
+      create: "Создавать",
+      edit: "Редактировать",
+      delete:"Удалить"
+    },
+    dataTable: {
+      title: "Название",
+      description: "Описание",
+      action: "Действие",
+    },
+  },
+
+  lanaguege: "RU",
 };
 
 export default russianLanguage;
