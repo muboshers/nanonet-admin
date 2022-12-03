@@ -8,13 +8,13 @@
           </v-alert>
         </div>
         <v-row class="mt-5 mx-2">
-          <v-col md="12" align="end" justify="flex-end">
+          <v-col align="end" justify="flex-end overflow-auto">
             <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
               <v-icon> mdi-plus </v-icon>
               {{ $t("blog.title") }}
             </v-btn>
           </v-col>
-          <v-col md="12" class="mt-5">
+          <v-col class="mt-5 col-12 overflow-hidden">
             <v-data-table
               :headers="headers"
               v-if="data.length > 0"
@@ -38,7 +38,7 @@
 
               <template #item.createdDate="{ value, item }">
                 <span>
-                  {{ new Date(value).toLocaleDateString("en-US") }}
+                  {{ new Date(value).toISOString() }}
                 </span>
               </template>
               <template #item.action="{ item }">
@@ -84,6 +84,7 @@
           {{ $t("blog.form.delete") }}
         </v-card-title>
         <v-form v-model="valid">
+          <!-- create form -->
           <v-container v-if="action === 'create'">
             <v-row>
               <v-col cols="12" md="4">
@@ -106,7 +107,7 @@
                 <v-text-field
                   v-model="UZ.title"
                   :rules="titleRules"
-                  :label="$t('blog.form.title') + ' UZ'"
+                  :label="$t('blog.form.title') + ' UZB'"
                   required
                 />
               </v-col>
@@ -117,7 +118,7 @@
                 <v-textarea
                   filled
                   v-model="EN.description"
-                  :label="$t('blog.form.description') + ' EN'"
+                  :label="$t('blog.form.description') + ' ENG'"
                   :rules="descriptionRules"
                   required
                 />
@@ -136,9 +137,9 @@
               <v-col cols="12" md="4">
                 <v-textarea
                   filled
-                  v-model="RU.title"
+                  v-model="UZ.description"
                   :rules="titleRules"
-                  :label="$t('blog.form.description') + $t('lanaguege')"
+                  :label="$t('blog.form.description') + ' UZB'"
                   required
                 />
               </v-col>
@@ -147,19 +148,19 @@
           <!-- Edit form -->
           <v-container v-else-if="action === 'edit'">
             <v-row>
-              <v-col cols="12" md="8">
+              <v-col cols="12">
                 <v-text-field
                   filled
                   v-model="editData.title"
-                  :label="$t('blog.form.description') + $t('lanaguege')"
-                  :rules="descriptionRules"
+                  :label="$t('blog.form.title') + ' ' + $t('lanaguege')"
+                  :rules="titleRules"
                   required
                 />
                 <v-textarea
                   filled
                   v-model="editData.description"
                   :rules="descriptionRules"
-                  :label="$t('blog.form.description') + ' RUS'"
+                  :label="$t('blog.form.description') + ' ' + $t('lanaguege')"
                   required
                 />
               </v-col>
@@ -219,24 +220,25 @@ export default {
       title: "",
       description: "",
       author: "",
-      createdDate: `"${Date.now()}"`,
+      createdDate: new Date(),
     },
     EN: {
       title: "",
       description: "",
       author: "",
-      createdDate: `"${Date.now()}"`,
+      createdDate: new Date(),
     },
     RU: {
       title: "",
       description: "",
       author: "",
-      createdDate: `"${Date.now()}"`,
+      createdDate: new Date(),
     },
     editData: null,
     headers: [],
     data: [],
     dialog: false,
+    language: "EN",
   }),
   head: {
     title: "Nanonet Service",
@@ -321,9 +323,10 @@ export default {
         });
     },
     handleEditBlog() {
-      this.editData = [];
-      this.dialog = false;
-      this.action = "create";
+      this.updateRequest(1)
+        .than((res) => res.json())
+        .then((d) => console.log(d))
+        .catch((err) => console.log(err));
     },
     editBlog(item) {
       this.action = "edit";
@@ -350,12 +353,41 @@ export default {
         }
       );
     },
+
+    async updateRequest(id) {
+      return await fetch(
+        `https://consultingweb.duckdns.org/api/v1/blog/update/${id}?lang=${this.$t(
+          "lanaguege"
+        )}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            AUTHORIZATION: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).data.token
+            }`,
+          },
+          method: "PUT",
+          body: JSON.stringify({
+            // : this.editData,
+            EN: this.editData,
+          }),
+        }
+      );
+    },
+
     async deleteBlog(id) {
       this.deleteBlogRequest(id)
         .then((res) => res.json())
         .then((d) => {
           this.data = this.data.filter((blog) => blog.id !== id);
         })
+        .catch((err) => console.log(err));
+    },
+
+    async updateBlogMiddleware() {
+      this.updateRequest(1)
+        .than((res) => res.json())
+        .then((d) => console.log(d))
         .catch((err) => console.log(err));
     },
   },
@@ -379,36 +411,45 @@ export default {
         align: "start",
         sortable: false,
         value: "title",
+        width: 200,
       },
       {
         text: this.$root.$t("blog.dataTable.description"),
         align: "start",
         sortable: false,
         value: "description",
+        width: 200,
       },
       {
         text: this.$root.$t("blog.dataTable.author"),
         align: "start",
         sortable: false,
+        width: 200,
         value: "author",
       },
       {
-        // text: this.$root.$t("blog.dataTable.createdAt"),
-        text: "dede",
-
+        text: this.$root.$t("blog.dataTable.createdAt"),
         align: "center",
         sortable: false,
+        width: 200,
         value: "createdDate",
       },
       {
-        // text: this.$root.$t("blog.dataTable.action"),
-        text: "dede",
-
+        text: this.$root.$t("blog.dataTable.action"),
         align: "center",
         sortable: false,
         value: "action",
+        width: 250,
       },
     ];
+  },
+
+  watch: {
+    dialog() {
+      if (!this.dialog) {
+        this.action = "create";
+      }
+    },
   },
 };
 </script>

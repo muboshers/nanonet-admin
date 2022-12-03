@@ -8,13 +8,13 @@
           </v-alert>
         </div>
         <v-row class="mt-5 mx-2">
-          <v-col md="12" align="end" justify="flex-end">
+          <v-col align="end" class="col-12" justify="flex-end">
             <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
               <v-icon> mdi-plus </v-icon>
               {{ $t("about.title") }}
             </v-btn>
           </v-col>
-          <v-col md="12" class="mt-5">
+          <v-col class="mt-5 col-12">
             <v-data-table
               :headers="headers"
               v-if="data.length > 0"
