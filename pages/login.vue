@@ -90,7 +90,7 @@ export default {
             "user",
             JSON.stringify({ data: data.data, tokenCreadintinal: newDate })
           );
-          this.$router.push({ name: "HomePage", pathname: "/" });
+          this.$router.push({ name: "index___en", path: "/" });
         })
         .catch((err) => (this.error += err.message));
     },
@@ -124,7 +124,7 @@ export default {
     if (user !== null || undefined) {
       if (user.tokenCreadintinal == todayDate) {
         this.login(user);
-        this.$router.push({ name: "HomePage", pathname: "/" });
+        this.$router.push({ name: "index___en", path: "/" });
       } else {
         localStorage.clear();
       }

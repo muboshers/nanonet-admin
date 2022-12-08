@@ -3,6 +3,7 @@ const englishLanguage = {
     blog: "Blog",
     about: "About Us",
     service: "Service",
+    category: "Category",
     settings: "Change Theme",
   },
   languages: "Change Language",
@@ -22,6 +23,9 @@ const englishLanguage = {
       action: "Action",
     },
   },
+  category:{
+    title:"Create a category"
+  },
 
   blog: {
     title: "Create Blog",
@@ -30,6 +34,7 @@ const englishLanguage = {
       title: "Blog Title",
       description: "Blog Description",
       submit: "Create",
+      blogImage: "Upload blog Image",
       edit: "Edit",
       delete: "Delete",
     },
@@ -38,11 +43,16 @@ const englishLanguage = {
       title: "Title",
       description: "Description",
       action: "Action",
-      createdAt:"Created Time",
-      
+      createdAt: "Created Time",
     },
   },
 
+  services: {
+    form: {
+      category: "Category",
+    },
+  },
+  logout: "Log Out",
   lanaguege: "EN",
 };
 

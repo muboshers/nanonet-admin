@@ -39,12 +39,12 @@
             >{{ $t("sidebar.about") }}
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :to="localePath('/service')" router exact>
+        <v-list-item :to="localePath('/category')" router exact>
           <v-list-item-action>
             <v-icon>mdi-server</v-icon>
           </v-list-item-action>
           <v-list-item-content class="mx-2"
-            >{{ $t("sidebar.service") }}
+            >{{ $t("sidebar.category") }}
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -92,7 +92,9 @@
             >
             </v-btn>
           </v-list-item-action>
-          <v-list-item-title> {{ $t("sidebar.settings") }} </v-list-item-title>
+          <v-list-item-title class="mx-2">
+            {{ $t("sidebar.settings") }}
+          </v-list-item-title>
         </v-list-item>
         <v-list-item>
           <v-select
@@ -103,6 +105,17 @@
             :item-value="language"
             :label="$t('languages')"
           ></v-select>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title class="mx-2">
+            {{ admin?.data?.data?.username }}
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-list-item>
+          <v-btn color="error" @click="logout">
+            {{ $t("logout") }}
+          </v-btn>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -118,6 +131,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "DefaultLayout",
   data() {
@@ -132,13 +147,20 @@ export default {
       languages: ["en", "ru", "uz"],
     };
   },
-
-  methods: {
+    methods: {
     colorSwitch() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
+    logout() {
+      localStorage.clear();
+      this.$router.push({ name: "login___en", path: "/login" });
+    },
   },
-
+  computed: {
+    ...mapState({
+      admin: (state) => state.admin,
+    }),
+  },
   watch: {
     language() {
       this.$i18n.setLocale(this.language);

@@ -4,7 +4,10 @@ const uzbekLanguage = {
     about: "Biz Haqimizda",
     service: "Xizmatlar",
     setings: "Temani o'zgartirish",
+    category: "Kategoriya ",
   },
+
+  
   languages: "Tilni o'zgartirish",
   about: {
     title: "Biz haqimizda bo'limiga ma'lumot qo'shish",
@@ -34,6 +37,7 @@ const uzbekLanguage = {
       create: "Yaratish",
       edit: "Tahrirlash",
       delete: "O'chirish",
+      blogImage: "Maqola uchun rasm yuklash",
     },
     dataTable: {
       title: "Sarlavha",
@@ -42,8 +46,16 @@ const uzbekLanguage = {
       action: "Ilovalar",
     },
   },
-
+  category:{
+    title:"Kategoryiya qo'shish"
+  },
+  services: {
+    form: {
+      category: "Kategoriya",
+    },
+  },
   lanaguege: "UZ",
+  logout: "Chiqish",
 };
 
 export default uzbekLanguage;

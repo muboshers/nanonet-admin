@@ -30,6 +30,8 @@ const russianLanguage = {
       create: "Создавать",
       edit: "Редактировать",
       delete: "Удалить",
+      blogImage: "Загрузить файл для изображения блога",
+      category: "Категория",
     },
     dataTable: {
       author: "Blog Автор",
@@ -39,8 +41,19 @@ const russianLanguage = {
       createdAt: "Время создания",
     },
   },
+    category:{
+      title:"Создать категорию"
+    },
+
+
+  services: {
+    form: {
+      category: "Категория",
+    },
+  },
 
   lanaguege: "RU",
+  logout: "Выйти",
 };
 
 export default russianLanguage;
