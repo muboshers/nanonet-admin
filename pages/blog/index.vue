@@ -41,6 +41,7 @@
                   {{ dateFormat(value) }}
                 </span>
               </template>
+
               <template #item.action="{ item }">
                 <v-btn
                   @click="deleteBlog(item.id)"
@@ -54,6 +55,11 @@
                 <v-btn @click="editBlog(item)" color="primary" class="mx-2">
                   <EditIcon />
                 </v-btn>
+                <nuxt-link :to="localePath(`/blog/${item.id}`)">
+                  <v-btn class="mx-2">
+                    <v-icon>mdi-eye</v-icon>
+                  </v-btn>
+                </nuxt-link>
               </template>
             </v-data-table>
             <v-col v-else align="center">
@@ -143,10 +149,9 @@
               </v-col>
               <v-col cols="12" md="4">
                 <v-file-input
-                  @change="handleFileHandler($event)"
                   :label="$t('blog.form.blogImage')"
                   v-model="blogImage"
-                  :rules="EN.blogImageRules"
+                  :rules="blogImageRules"
                   truncate-length="15"
                 />
               </v-col>
@@ -169,6 +174,13 @@
                   :rules="descriptionRules"
                   :label="$t('blog.form.description') + ' ' + $t('lanaguege')"
                   required
+                />
+
+                <v-file-input
+                  :label="$t('blog.form.blogImage')"
+                  v-model="blogImage"
+                  :rules="blogImageRules"
+                  truncate-length="15"
                 />
               </v-col>
             </v-row>
@@ -207,7 +219,7 @@
 </template>
 
 <script>
-import EditIcon from "../components/EditIcon";
+import EditIcon from "../../components/EditIcon";
 export default {
   middleware: "auth",
   name: "blogPage",
@@ -223,6 +235,7 @@ export default {
       (v) => !!v || "Title is required",
       (v) => v.length <= 255 || "Title must be less than 255 characters",
     ],
+    blogImageRules: [(v) => !!v || "Blog Image is required"],
     descriptionRules: [
       (v) => !!v || "Description is required",
       (v) => v.length <= 255 || "Description must be less than 255 characters",
@@ -236,7 +249,7 @@ export default {
       title: "",
       description: "",
       author: "",
-      blogImageRules: [(v) => !!v || "Blog Image is required"],
+      image: "",
     },
     RU: {
       title: "",
@@ -249,6 +262,7 @@ export default {
     data: [],
     dialog: false,
     language: "",
+    baseURL: "https://consultingweb.duckdns.org/api/v1/upload/",
   }),
   head: {
     title: "Nanonet Service",
@@ -257,38 +271,22 @@ export default {
   methods: {
     async createblog() {
       if (this.valid) {
-        const formData = new FormData();
-        formData.append("file", this.blogImage, this.blogImage.name);
-        await fetch("https://consultingweb.duckdns.org/api/v1/upload/", {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            AUTHORIZATION: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).data.token
-            }`,
-          },
-          method: "POST",
-          body: formData,
-        });
         await this.createInformation()
           .then((result) => result.json())
           .then((d) => (this.data = [...this.data, d.data]))
-          .catch((err) => {
-            this.errorField = "Something wrong";
-
-            setTimeout(() => {
-              this.errorField = null;
-            }, 2000);
-          });
+          .catch((err) => console.log(err.message));
         this.dialog = false;
       }
       this.EN.title = "";
       this.EN.description = "";
+      this.EN.image = "";
 
       this.RU.title = "";
       this.RU.description = "";
 
       this.UZ.title = "";
       this.UZ.description = "";
+      this.blogImage = "";
     },
     async createInformation() {
       return await fetch(
@@ -312,7 +310,7 @@ export default {
         }
       );
     },
-    async handleFileHandler(event) {},
+
     async getAllblogInformation() {
       return await fetch(
         `https://consultingweb.duckdns.org/api/v1/blog/list?lang=${this.$t(
@@ -354,6 +352,7 @@ export default {
         description: item.description,
         author: item.author,
         createdDate: item.createdDate || this.EN.createdDate,
+        image: item.image,
       };
     },
 
@@ -418,8 +417,6 @@ export default {
         today.getMonth() + 1
       }/${today.getFullYear()}`;
     },
-
-    async fileUploadRequest(formData) {},
   },
 
   mounted() {
@@ -442,7 +439,7 @@ export default {
         align: "start",
         sortable: false,
         value: "title",
-        width: 200,
+        width: 100,
       },
       {
         text: this.$root.$t("blog.dataTable.description"),
@@ -455,16 +452,17 @@ export default {
         text: this.$root.$t("blog.dataTable.author"),
         align: "start",
         sortable: false,
-        width: 200,
+        width: 100,
         value: "author",
       },
       {
         text: this.$root.$t("blog.dataTable.createdAt"),
         align: "center",
         sortable: false,
-        width: 200,
+        width: 100,
         value: "createdDate",
       },
+
       {
         text: this.$root.$t("blog.dataTable.action"),
         align: "center",
@@ -483,10 +481,33 @@ export default {
       }
     },
 
-    async blogImage() {},
-    // langauge() {
-    //   this.getInfoToData();
-    // },
+    async blogImage() {
+      if (
+        this.blogImage !== null &&
+        this.blogImage !== undefined &&
+        this.blogImage !== ""
+      ) {
+        const formData = new FormData();
+        formData.append("file", this.blogImage, this.blogImage.name);
+        await this.$axios
+          .post("https://consultingweb.duckdns.org/api/v1/upload/", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              AUTHORIZATION: `Bearer ${
+                JSON.parse(localStorage.getItem("user")).data.token
+              }`,
+            },
+          })
+          .then((d) => {
+            if (this.editData) {
+              this.editData.image = d.data.data;
+            } else {
+              this.EN.image = d.data.data;
+            }
+          })
+          .catch((err) => console.log(err.message));
+      }
+    },
   },
 };
 </script>
@@ -496,5 +517,9 @@ export default {
   position: absolute;
   z-index: 1;
   top: 5%;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

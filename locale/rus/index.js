@@ -38,6 +38,7 @@ const russianLanguage = {
       author: "Blog Автор",
       title: "Название",
       description: "Описание",
+      image:"Изображение",
       action: "Действие",
       createdAt: "Время создания",
     },

@@ -42,6 +42,7 @@ const uzbekLanguage = {
     dataTable: {
       title: "Sarlavha",
       author: "Muallif",
+      image: "Maqola rasmi",
       description: "Ozroq ma'lumot",
       action: "Ilovalar",
     },

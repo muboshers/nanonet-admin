@@ -47,6 +47,7 @@ const englishLanguage = {
       author: "Blog Author",
       title: "Title",
       description: "Description",
+      image:"Image",
       action: "Action",
       createdAt: "Created Time",
     },
