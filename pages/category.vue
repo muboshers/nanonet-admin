@@ -73,14 +73,13 @@
           {{ $t("blog.form.delete") }}
         </v-card-title>
         <v-form v-model="valid">
-          <!-- create form -->
           <v-container v-if="action === 'create'">
             <v-row>
               <v-col cols="12" md="4">
                 <v-text-field
                   v-model="EN.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' EN'"
+                  :label="$t('category.form.title') + ' EN'"
                   required
                 />
               </v-col>
@@ -88,7 +87,7 @@
                 <v-text-field
                   v-model="RU.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' RUS'"
+                  :label="$t('category.form.title') + ' RUS'"
                   required
                 />
               </v-col>
@@ -96,7 +95,7 @@
                 <v-text-field
                   v-model="UZ.title"
                   :rules="titleRules"
-                  :label="$t('about.form.title') + ' UZB'"
+                  :label="$t('category.form.title') + ' UZB'"
                   required
                 />
               </v-col>
@@ -107,7 +106,7 @@
                 <v-textarea
                   filled
                   v-model="EN.description"
-                  :label="$t('about.form.description') + ' ENG'"
+                  :label="$t('category.form.description') + ' ENG'"
                   :rules="descriptionRules"
                   required
                 />
@@ -118,7 +117,7 @@
                   filled
                   v-model="RU.description"
                   :rules="descriptionRules"
-                  :label="$t('about.form.description') + ' RUS'"
+                  :label="$t('category.form.description') + ' RUS'"
                   required
                 />
               </v-col>
@@ -127,21 +126,20 @@
                 <v-textarea
                   filled
                   v-model="UZ.description"
-                  :rules="descriptionRules"
-                  :label="$t('about.form.description') + ' UZB'"
+                  :rules="descriptionRuless"
+                  :label="$t('category.form.description') + ' UZB'"
                   required
                 />
               </v-col>
             </v-row>
           </v-container>
-          <!-- Edit form -->
           <v-container v-else-if="action === 'edit'">
             <v-row>
               <v-col cols="12">
                 <v-text-field
                   filled
                   v-model="editData.title"
-                  :label="$t('about.form.title') + ' ' + $t('lanaguege')"
+                  :label="$t('category.form.title') + ' ' + $t('lanaguege')"
                   :rules="titleRules"
                   required
                 />
@@ -149,12 +147,13 @@
                   filled
                   v-model="editData.description"
                   :rules="descriptionRules"
-                  :label="$t('about.form.description') + ' ' + $t('lanaguege')"
+                  :label="$t('category.form.description') + ' ' + $t('lanaguege')"
                   required
                 />
               </v-col>
             </v-row>
           </v-container>
+          <v-container else></v-container>
         </v-form>
 
         <v-divider></v-divider>
@@ -177,6 +176,10 @@
           >
             {{ $t("blog.form.edit") }}
           </v-btn>
+
+          <v-btn v-else color="primary" text @click="createblog">
+            {{ $t("blog.form.delete") }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -187,8 +190,8 @@
 import EditIcon from "../components/EditIcon";
 
 export default {
+  name: "CategoryPage",
   middleware: "auth",
-  name: "ServicePage",
   components: {
     EditIcon,
   },
@@ -199,13 +202,12 @@ export default {
     action: "create",
     titleRules: [
       (v) => !!v || "Title is required",
-      (v) => v.length <= 50 || "Title must be less than 255 characters",
+      (v) => v.length <= 255 || "Title must be less than 255 characters",
     ],
     descriptionRules: [
       (v) => !!v || "Description is required",
       (v) => v.length <= 255 || "Description must be less than 255 characters",
     ],
-    categoryRules: [(v) => !!v || "Category is required"],
     UZ: {
       title: "",
       description: "",
@@ -225,7 +227,7 @@ export default {
     language: "",
   }),
   head: {
-    title: "Nanonet Services",
+    title: "Nanonet About",
   },
 
   methods: {
@@ -292,19 +294,14 @@ export default {
       );
     },
 
-    async getInfoToData() {
-      await this.getAllblogInformation()
+    getInfoToData() {
+      this.getAllblogInformation()
         .then((res) => res.json())
         .then((d) => {
-          console.log(d);
           this.data = d.data;
         })
         .catch((err) => {
-          this.errorField = err.message;
-
-          setTimeout(() => {
-            this.errorField = null;
-          }, 2000);
+          console.log(err.message);
         });
     },
 
@@ -414,19 +411,12 @@ export default {
 
   watch: {
     dialog() {
-      if (!this.dialog) { 
+      if (!this.dialog) {
         this.action = "create";
         this.getInfoToData();
       }
     },
-
-    langauge() {
-      this.getInfoToData();
-    },
   },
-  updated:{
-    
-  }
 };
 </script>
 

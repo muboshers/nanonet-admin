@@ -5,9 +5,9 @@ const uzbekLanguage = {
     service: "Xizmatlar",
     setings: "Temani o'zgartirish",
     category: "Kategoriya ",
+    contact: "Aloqa Xabarlari",
   },
 
-  
   languages: "Tilni o'zgartirish",
   about: {
     title: "Biz haqimizda bo'limiga ma'lumot qo'shish",
@@ -46,14 +46,25 @@ const uzbekLanguage = {
       action: "Ilovalar",
     },
   },
-  category:{
-    title:"Kategoryiya qo'shish"
+  category: {
+    title: "Kategoryiya qo'shish",
   },
   services: {
     form: {
       category: "Kategoriya",
     },
   },
+
+  contactPage: {
+    dataTable: {
+      name: "Ism",
+      description: "Xabar Mazmuni",
+      email: "Elektron Pochta",
+      phoneNumber: "Telefon Raqam",
+      action: "Action",
+    },
+  },
+
   lanaguege: "UZ",
   logout: "Chiqish",
 };

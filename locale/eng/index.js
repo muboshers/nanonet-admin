@@ -5,6 +5,7 @@ const englishLanguage = {
     service: "Service",
     category: "Category",
     settings: "Change Theme",
+    contact: "Contact",
   },
   languages: "Change Language",
   about: {
@@ -23,8 +24,12 @@ const englishLanguage = {
       action: "Action",
     },
   },
-  category:{
-    title:"Create a category"
+  category: {
+    title: "Create a category",
+    form: {
+      title: "Category Title",
+      description: "Category description",
+    },
   },
 
   blog: {
@@ -52,6 +57,17 @@ const englishLanguage = {
       category: "Category",
     },
   },
+
+  contactPage: {
+    dataTable: {
+      name: "Name",
+      description: "Description",
+      email: "Email",
+      phoneNumber: "Phone Number",
+      action: "Action",
+    },
+  },
+
   logout: "Log Out",
   lanaguege: "EN",
 };

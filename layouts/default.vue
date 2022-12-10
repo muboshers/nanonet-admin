@@ -47,6 +47,23 @@
             >{{ $t("sidebar.category") }}
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item :to="localePath('/service')" router exact>
+          <v-list-item-action>
+            <v-icon>mdi-apps</v-icon>
+          </v-list-item-action>
+          <v-list-item-content class="mx-2"
+            >{{ $t("sidebar.service") }}
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item :to="localePath('/contact')" router exact>
+          <v-list-item-action>
+            <v-icon>mdi-message</v-icon>
+          </v-list-item-action>
+          <v-list-item-content class="mx-2"
+            >{{ $t("sidebar.contact") }}
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <!-- Sidebar section -->
@@ -147,7 +164,7 @@ export default {
       languages: ["en", "ru", "uz"],
     };
   },
-    methods: {
+  methods: {
     colorSwitch() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },

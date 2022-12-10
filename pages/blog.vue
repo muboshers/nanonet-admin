@@ -143,8 +143,9 @@
               </v-col>
               <v-col cols="12" md="4">
                 <v-file-input
+                  @change="handleFileHandler($event)"
                   :label="$t('blog.form.blogImage')"
-                  v-model="EN.blogImage"
+                  v-model="blogImage"
                   :rules="EN.blogImageRules"
                   truncate-length="15"
                 />
@@ -235,7 +236,6 @@ export default {
       title: "",
       description: "",
       author: "",
-      blogImage: "",
       blogImageRules: [(v) => !!v || "Blog Image is required"],
     },
     RU: {
@@ -243,6 +243,7 @@ export default {
       description: "",
       author: "",
     },
+    blogImage: null,
     editData: null,
     headers: [],
     data: [],
@@ -256,6 +257,18 @@ export default {
   methods: {
     async createblog() {
       if (this.valid) {
+        const formData = new FormData();
+        formData.append("file", this.blogImage, this.blogImage.name);
+        await fetch("https://consultingweb.duckdns.org/api/v1/upload/", {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            AUTHORIZATION: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).data.token
+            }`,
+          },
+          method: "POST",
+          body: formData,
+        });
         await this.createInformation()
           .then((result) => result.json())
           .then((d) => (this.data = [...this.data, d.data]))
@@ -299,7 +312,7 @@ export default {
         }
       );
     },
-
+    async handleFileHandler(event) {},
     async getAllblogInformation() {
       return await fetch(
         `https://consultingweb.duckdns.org/api/v1/blog/list?lang=${this.$t(
@@ -405,6 +418,8 @@ export default {
         today.getMonth() + 1
       }/${today.getFullYear()}`;
     },
+
+    async fileUploadRequest(formData) {},
   },
 
   mounted() {
@@ -464,8 +479,11 @@ export default {
     dialog() {
       if (!this.dialog) {
         this.action = "create";
+        this.getInfoToData();
       }
     },
+
+    async blogImage() {},
     // langauge() {
     //   this.getInfoToData();
     // },

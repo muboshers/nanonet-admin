@@ -32,6 +32,7 @@ const russianLanguage = {
       delete: "Удалить",
       blogImage: "Загрузить файл для изображения блога",
       category: "Категория",
+      contact: "Контакт",
     },
     dataTable: {
       author: "Blog Автор",
@@ -41,14 +42,28 @@ const russianLanguage = {
       createdAt: "Время создания",
     },
   },
-    category:{
-      title:"Создать категорию"
-    },
+  category: {
+    title: "Создать категорию",
 
+    form: {
+      title: "Категория    Название",
+      description: "Категория Описание",
+    },
+  },
 
   services: {
     form: {
       category: "Категория",
+    },
+  },
+
+  contactPage: {
+    dataTable: {
+      name: "Имя",
+      description: "Описание",
+      email: "Эл. адрес",
+      phoneNumber: "Номер телефона",
+      action: "Action",
     },
   },
 
