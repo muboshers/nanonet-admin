@@ -52,7 +52,16 @@ const uzbekLanguage = {
   },
   services: {
     form: {
-      category: "Kategoriya",
+      category: "Kurslar",
+    },
+    couses: {
+      title: "O'quv dasturlar",
+      form: {
+        title: "Sarlavha",
+        description: "Malumot",
+        online: "Online",
+        type: "O'quv dasturi kategoriyasi",
+      },
     },
   },
 

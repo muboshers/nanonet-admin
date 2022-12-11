@@ -126,7 +126,7 @@
                 <v-textarea
                   filled
                   v-model="UZ.description"
-                  :rules="descriptionRuless"
+                  :rules="descriptionRules"
                   :label="$t('category.form.description') + ' UZB'"
                   required
                 />

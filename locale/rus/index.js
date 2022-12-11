@@ -38,7 +38,7 @@ const russianLanguage = {
       author: "Blog Автор",
       title: "Название",
       description: "Описание",
-      image:"Изображение",
+      image: "Изображение",
       action: "Действие",
       createdAt: "Время создания",
     },
@@ -51,13 +51,20 @@ const russianLanguage = {
       description: "Категория Описание",
     },
   },
-
   services: {
     form: {
-      category: "Категория",
+      category: "Курсы",
+    },
+    couses: {
+      title: "Курсы",
+      form: {
+        title: "Название курсов",
+        description: "Описание курсов",
+        online: "Курс онлайн",
+        type: "Категория курса",
+      },
     },
   },
-
   contactPage: {
     dataTable: {
       name: "Имя",

@@ -47,7 +47,7 @@ const englishLanguage = {
       author: "Blog Author",
       title: "Title",
       description: "Description",
-      image:"Image",
+      image: "Image",
       action: "Action",
       createdAt: "Created Time",
     },
@@ -55,7 +55,16 @@ const englishLanguage = {
 
   services: {
     form: {
-      category: "Category",
+      category: "Courses",
+    },
+    couses: {
+      title: "Courses",
+      form: {
+        title: "Courses Title",
+        description: "Courses Description",
+        online: "Course is Online",
+        type: "Course Category",
+      },
     },
   },
 
