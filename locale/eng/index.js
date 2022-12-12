@@ -6,6 +6,7 @@ const englishLanguage = {
     category: "Category",
     settings: "Change Theme",
     contact: "Contact",
+    course:"Course",
   },
   languages: "Change Language",
   about: {

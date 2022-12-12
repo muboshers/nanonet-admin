@@ -9,5 +9,7 @@ export default {
   head: {
     title: "Nanonet Home Page",
   },
+
+  mounted() {},
 };
 </script>

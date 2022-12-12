@@ -1,1 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{529:function(e,t,n){"use strict";n.r(t);var l={middleware:"auth",name:"HomePage",head:{title:"Nanonet Home Page"}},o=n(89),component=Object(o.a)(l,(function(){var e=this;return(0,e._self._c)("h1",{staticClass:"text-red-500"},[e._v(e._s(e.$t("sidebar.blog")))])}),[],!1,null,null,null);t.default=component.exports}}]);

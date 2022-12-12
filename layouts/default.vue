@@ -56,6 +56,14 @@
             >{{ $t("sidebar.service") }}
           </v-list-item-content>
         </v-list-item>
+        <v-list-item :to="localePath('/courses')" router exact>
+          <v-list-item-action>
+            <v-icon>mdi-book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content class="mx-2"
+            >{{ $t("sidebar.course") }}
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item :to="localePath('/contact')" router exact>
           <v-list-item-action>
             <v-icon>mdi-message</v-icon>
@@ -64,6 +72,7 @@
             >{{ $t("sidebar.contact") }}
           </v-list-item-content>
         </v-list-item>
+
       </v-list>
     </v-navigation-drawer>
     <!-- Sidebar section -->

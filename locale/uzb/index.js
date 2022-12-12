@@ -4,8 +4,9 @@ const uzbekLanguage = {
     about: "Biz Haqimizda",
     service: "Xizmatlar",
     setings: "Temani o'zgartirish",
-    category: "Kategoriya ",
+    category: "Kategoriya",
     contact: "Aloqa Xabarlari",
+    course: "O'quv kurslar",
   },
 
   languages: "Tilni o'zgartirish",

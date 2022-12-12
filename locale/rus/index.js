@@ -4,6 +4,10 @@ const russianLanguage = {
     about: "О нас",
     service: "О бслуживание",
     settings: "Поменять тему",
+    course:"Курсы",
+    contact:"Контакт",
+    category:"Категория"
+
   },
   languages: "Изменить язык",
   about: {

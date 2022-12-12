@@ -11,7 +11,7 @@
           <v-col align="end" justify="flex-end overflow-auto">
             <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">
               <v-icon> mdi-plus </v-icon>
-              {{ $t("services.form.category") }}
+              {{ $t("sidebar.service") }}
             </v-btn>
           </v-col>
           <v-col class="mt-5 col-12 overflow-hidden">
@@ -31,9 +31,9 @@
                   {{ value }}
                 </span>
               </template>
-              <template #item.online="{ value, item }">
+              <template #item.type="{ value, item }">
                 <span>
-                  {{ value ? "online" : "offline" }}
+                  {{ value }}
                 </span>
               </template>
               <template #item.action="{ item }">
@@ -64,18 +64,10 @@
       </template>
 
       <v-card>
-        <v-card-title v-if="action === 'create'" class="text-h5 grey lighten-2">
-          {{ $t("services.form.category") }}
+        <v-card-title class="text-h5 grey lighten-2">
+          {{ $t("sidebar.service") }}
         </v-card-title>
-        <v-card-title
-          v-else-if="action === 'edit'"
-          class="text-h5 grey lighten-2"
-        >
-          {{ $t("services.form.category") }}
-        </v-card-title>
-        <v-card-title v-else class="text-h5 grey lighten-2">
-          {{ $t("services.form.category") }}
-        </v-card-title>
+
         <v-form v-model="valid">
           <v-container v-if="action === 'create'">
             <v-row>
@@ -175,17 +167,6 @@
                 />
               </v-col>
             </v-row>
-            <v-row>
-              <v-col cols="12" md="4">
-                <v-checkbox
-                  v-model="online"
-                  label="Online Education"
-                  color="primary"
-                  :value="true"
-                  hide-details
-                />
-              </v-col>
-            </v-row>
           </v-container>
 
           <!-- edit data form -->
@@ -282,23 +263,19 @@ export default {
       description: "",
       type: "",
       categoryId: null,
-      online: false,
     },
     EN: {
       title: "",
       description: "",
       type: "",
       categoryId: null,
-      online: false,
     },
     RU: {
       title: "",
       description: "",
       type: "",
       categoryId: null,
-      online: false,
     },
-    online: false,
     editData: null,
     headers: [],
     data: [],
@@ -332,7 +309,6 @@ export default {
     handleEditData(e) {
       const { id, title } = e;
       this.editData.type = title;
-      this.editData.categoryId = id;
     },
     // get all ru and uz and en categoryes from category list
     async getAllCategories(lang, data) {
@@ -371,7 +347,7 @@ export default {
     },
     async createInformation() {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/service/edu/create?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/service/create?lang=${this.$t(
           "lanaguege"
         )}`,
         {
@@ -394,7 +370,7 @@ export default {
 
     async getAllblogInformation() {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/service/edu/list?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/service/list?lang=${this.$t(
           "lanaguege"
         )}&categoryId=33`,
         {
@@ -432,7 +408,7 @@ export default {
 
     async deleteBlogRequest(id) {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/service/edu/delete/${id}`,
+        `https://consultingweb.duckdns.org/api/v1/service/delete/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -447,7 +423,7 @@ export default {
 
     async updateRequest(id) {
       return await fetch(
-        `https://consultingweb.duckdns.org/api/v1/service/edu/update/${id}?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/service/update/${id}?lang=${this.$t(
           "lanaguege"
         )}`,
         {
@@ -459,9 +435,9 @@ export default {
           },
           method: "PUT",
           body: JSON.stringify({
-            EN: this.editData,
-            RU: this.editData,
-            UZ: this.editData,
+            EN: this.language === "EN" ? this.editData : null,
+            RU: this.language === "RU" ? this.editData : null,
+            UZ: this.language === "UZ" ? this.editData : null,
           }),
         }
       );
@@ -516,10 +492,10 @@ export default {
         width: 200,
       },
       {
-        text: this.$root.$t("services.couses.form.online"),
+        text: this.$root.$t("services.couses.form.type"),
         align: "start",
         sortable: false,
-        value: "online",
+        value: "type",
         width: 100,
       },
       {
@@ -538,12 +514,6 @@ export default {
         this.action = "create";
         this.getInfoToData();
       }
-    },
-
-    online() {
-      this.EN.online = this.online;
-      this.RU.online = this.online;
-      this.UZ.online = this.online;
     },
   },
 };
