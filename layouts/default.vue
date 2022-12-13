@@ -47,15 +47,6 @@
             >{{ $t("sidebar.category") }}
           </v-list-item-content>
         </v-list-item>
-
-        <v-list-item :to="localePath('/service')" router exact>
-          <v-list-item-action>
-            <v-icon>mdi-apps</v-icon>
-          </v-list-item-action>
-          <v-list-item-content class="mx-2"
-            >{{ $t("sidebar.service") }}
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item :to="localePath('/courses')" router exact>
           <v-list-item-action>
             <v-icon>mdi-book</v-icon>

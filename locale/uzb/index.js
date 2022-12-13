@@ -62,6 +62,7 @@ const uzbekLanguage = {
         description: "Malumot",
         online: "Online",
         type: "O'quv dasturi kategoriyasi",
+        startTime: "Boshlanish Vaqti",
       },
     },
   },

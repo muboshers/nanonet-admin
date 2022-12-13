@@ -385,9 +385,9 @@ export default {
           },
           method: "PUT",
           body: JSON.stringify({
-            EN: this.editData,
-            RU: this.editData,
-            UZ: this.editData,
+            EN: this.language === "EN" ? this.editData : null,
+            RU: this.language === "RU" ? this.editData : null,
+            UZ: this.language === "UZ" ? this.editData : null,  
           }),
         }
       );

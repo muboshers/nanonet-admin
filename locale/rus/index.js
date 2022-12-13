@@ -66,6 +66,7 @@ const russianLanguage = {
         description: "Описание курсов",
         online: "Курс онлайн",
         type: "Категория курса",
+        startTime:"Время начала",
       },
     },
   },
@@ -76,6 +77,7 @@ const russianLanguage = {
       email: "Эл. адрес",
       phoneNumber: "Номер телефона",
       action: "Action",
+ 
     },
   },
 

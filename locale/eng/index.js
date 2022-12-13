@@ -53,7 +53,7 @@ const englishLanguage = {
       createdAt: "Created Time",
     },
   },
-
+  
   services: {
     form: {
       category: "Courses",
@@ -65,6 +65,7 @@ const englishLanguage = {
         description: "Courses Description",
         online: "Course is Online",
         type: "Course Category",
+        startTime:"Start Time",
       },
     },
   },

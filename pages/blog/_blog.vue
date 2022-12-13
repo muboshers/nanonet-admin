@@ -8,7 +8,7 @@
           <v-img
             height="250"
             :src="
-              'https://consultingweb.duckdns.org/api/v1/upload/' + data.image
+              'http://consultingweb.duckdns.org/api/v1/upload/' + data.image
             "
           />
 
@@ -41,9 +41,9 @@ export default {
   },
   methods: {
     async getBlog() {
-      const id = 51;
+      const { blog } = this.$route.params;
       await fetch(
-        `https://consultingweb.duckdns.org/api/v1/blog/${id}?lang=${this.$t(
+        `https://consultingweb.duckdns.org/api/v1/blog/${blog}?lang=${this.$t(
           "lanaguege"
         )}`
       )
